@@ -1,6 +1,7 @@
 # 301 redirects for every indexed URL that is not preserved on the new site.
 # Full rationale and the preserved-URL list: docs/redirects.md
 # Audited against the live sitemap (35 URLs) on 2026-07-16.
+# /contact/ removed 2026-07-16 (page served no purpose with no contact details).
 # /book/ became a live page again on 2026-07-16 (book confirmed by client);
 # the old book-related URLs now point there.
 
@@ -16,4 +17,5 @@
 /introduction-to-acceptance/ /book/ 301
 /open-and-connect/ /book/ 301
 /pause-and-reflect/ /book/ 301
-/thank-you/ /contact/ 301
+/thank-you/ / 301
+/contact/ / 301

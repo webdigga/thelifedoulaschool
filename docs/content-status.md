@@ -21,7 +21,7 @@ Nothing goes to the production domain until its content is `client-approved` or 
 | Core belief: Sub-Atomic Life Mapping       | missing           | Designed placeholder state; no source material                                                               |
 | Core belief: Christ as the Key             | draft-placeholder |                                                                                                              |
 | About (author hub)                         | draft-placeholder | Adapted from old About + My Story, services language removed                                                 |
-| Contact                                    | client-approved   | Per client 2026-07-16: no contact details or socials published, deliberate                                   |
+| Contact                                    | removed           | Page deleted 2026-07-16 (David): no contact details exist, so no page; /contact/ 301s to /                   |
 | FAQ                                        | draft-placeholder | Old FAQs adapted to teaching pivot; session/pricing FAQs removed                                             |
 | Testimonials (3 quotes)                    | draft-placeholder | Carried verbatim from old site, client review pending                                                        |
 | Privacy policy                             | draft-placeholder | Rewritten: new site sets no cookies, no analytics                                                            |
