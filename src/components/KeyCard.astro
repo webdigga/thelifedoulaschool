@@ -1,0 +1,69 @@
+---
+/**
+ * Card for one Bridging Key, used in the homepage grid and the overview page.
+ * Identity comes from icon, number, and name; all eight share one theme.
+ */
+import KeyIcon from './KeyIcon.astro';
+
+interface Props {
+  slug: string;
+  title: string;
+  essence: string;
+  order: number;
+}
+
+const { slug, title, essence, order } = Astro.props;
+---
+
+<a class="key-card" href={`/8-bridging-keys/${slug}/`}>
+  <span class="key-icon"><KeyIcon slug={slug} /></span>
+  <span class="key-number" aria-hidden="true">{String(order).padStart(2, '0')}</span>
+  <span class="key-name">{title}</span>
+  <span class="key-essence">{essence}</span>
+</a>
+
+<style>
+  .key-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-ink);
+    box-shadow: var(--shadow-card);
+    transition:
+      border-color var(--motion-quick) var(--ease-soft),
+      transform var(--motion-quick) var(--ease-soft);
+  }
+
+  .key-card:hover {
+    border-color: var(--color-glow);
+    transform: translateY(-2px);
+    color: var(--color-ink);
+  }
+
+  .key-icon {
+    inline-size: 2rem;
+    color: var(--color-accent);
+  }
+
+  .key-number {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+  }
+
+  .key-name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: var(--leading-tight);
+  }
+
+  .key-essence {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+/**
+ * Article body wrapper: typographic defaults for rendered markdown, capped
+ * at the reading measure. All long-form content renders inside this.
+ */
+---
+
+<div class="prose">
+  <slot />
+</div>
+
+<style>
+  .prose {
+    max-width: var(--measure-prose);
+  }
+
+  .prose :global(h2) {
+    margin-block: var(--space-xl) var(--space-md);
+  }
+
+  .prose :global(h3) {
+    margin-block: var(--space-lg) var(--space-sm);
+  }
+
+  .prose :global(blockquote) {
+    margin-inline: 0;
+    padding-inline-start: var(--space-lg);
+    border-inline-start: 3px solid var(--color-glow);
+    color: var(--color-ink-muted);
+    font-style: italic;
+  }
+
+  .prose :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+    margin-block: var(--space-xl);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-inline-start: var(--space-lg);
+  }
+
+  .prose :global(li) {
+    margin-block-end: var(--space-2xs);
+  }
+
+  .prose :global(img) {
+    border-radius: var(--radius-md);
+  }
+</style>

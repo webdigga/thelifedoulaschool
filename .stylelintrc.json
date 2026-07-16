@@ -1,0 +1,29 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "custom-property-empty-line-before": null,
+    "import-notation": "string",
+    "no-descending-specificity": null,
+    "selector-pseudo-class-no-unknown": [true, { "ignorePseudoClasses": ["global"] }],
+    "declaration-property-value-allowed-list": {
+      "/^(color|background|background-color|border|border-color|border-top|border-right|border-bottom|border-left|outline|outline-color|fill|stroke|box-shadow|text-decoration-color|caret-color|accent-color|column-rule-color)$/": [
+        "/var\\(--/",
+        "/^(inherit|initial|unset|revert|transparent|currentcolor|none|0)$/i",
+        "/^(solid|dashed|dotted|double)$/",
+        "/^[0-9.]+(px|rem|em)$/"
+      ]
+    }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.astro"],
+      "customSyntax": "postcss-html"
+    },
+    {
+      "files": ["src/styles/themes/*.css", "src/styles/tokens.css"],
+      "rules": {
+        "declaration-property-value-allowed-list": null
+      }
+    }
+  ]
+}

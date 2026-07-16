@@ -1,0 +1,64 @@
+---
+/**
+ * Card for one blog post, used on the homepage and blog index.
+ */
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  datePublished: Date;
+}
+
+const { slug, title, description, datePublished } = Astro.props;
+
+const displayDate = datePublished.toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<article class="post-card">
+  <h3 class="post-title"><a href={`/${slug}/`}>{title}</a></h3>
+  <p class="post-meta">
+    <time datetime={datePublished.toISOString().slice(0, 10)}>{displayDate}</time>
+  </p>
+  <p class="post-description">{description}</p>
+</article>
+
+<style>
+  .post-card {
+    padding: var(--space-lg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .post-title {
+    margin-block-end: var(--space-2xs);
+    font-size: var(--text-lg);
+  }
+
+  .post-title a {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .post-title a:hover {
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-decoration-color: var(--color-glow);
+  }
+
+  .post-meta {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    margin-block-end: var(--space-sm);
+  }
+
+  .post-description {
+    margin: 0;
+    color: var(--color-ink-muted);
+  }
+</style>

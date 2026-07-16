@@ -1,0 +1,190 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import BridgeMotif from '../components/BridgeMotif.astro';
+import KeyCard from '../components/KeyCard.astro';
+import PostCard from '../components/PostCard.astro';
+import VideoCard from '../components/VideoCard.astro';
+import CTA from '../components/CTA.astro';
+import { getLatestVideos } from '../lib/youtube';
+import { YOUTUBE } from '../config/site';
+
+const keys = (await getCollection('keys')).sort((a, b) => a.data.order - b.data.order);
+
+const posts = (await getCollection('posts'))
+  .sort((a, b) => b.data.datePublished.valueOf() - a.data.datePublished.valueOf())
+  .slice(0, 3);
+
+const videos = await getLatestVideos(4);
+
+const videoJsonLd = videos.map((video) => ({
+  '@type': 'VideoObject',
+  name: video.title,
+  uploadDate: video.published,
+  thumbnailUrl: video.thumbnail,
+  embedUrl: `https://www.youtube-nocookie.com/embed/${video.id}`,
+  contentUrl: `https://www.youtube.com/watch?v=${video.id}`,
+}));
+---
+
+<BaseLayout
+  title="Bridging Heaven and Earth"
+  description="The Life Doula Bridge: a middle path uniting the human and spiritual experience through 8 Bridging Keys. Teaching and learning, for all faiths and none."
+  path="/"
+  jsonLd={videoJsonLd}
+>
+  <Hero
+    strapline="Ascending to joy"
+    title="Bridging Heaven and Earth"
+    subline="The 8 Bridging Keys: how to unite the human and spiritual experience. Teaching and learning, for self and others, seen and unseen."
+  />
+
+  <section class="band" aria-label="What is the Life Doula Bridge?">
+    <div class="container-content">
+      <SectionHeading eyebrow="The philosophy" heading="What is the Life Doula Bridge?" level={2} />
+      <div class="philosophy">
+        <p>
+          The Life Doula Bridge is a way of living and learning that joins two worlds most of us are
+          taught to keep apart: the everyday, practical business of being human, and the quiet,
+          spiritual life underneath it. It is a middle path. One foot on the earth, one hand towards
+          heaven, and a bridge built between them that you can cross in both directions, every day.
+        </p>
+        <p>
+          The bridge is crossed using the 8 Bridging Keys, each one a doorway into part of that
+          union, and each taught through 7 ways that make it usable in ordinary life. There is
+          nothing to join and nothing for sale here. This teaching welcomes every faith and none,
+          and it never pushes, promotes, judges, or forces. It simply offers what has been learned,
+          for whoever is ready to use it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-alt" aria-label="The 8 Bridging Keys">
+    <div class="container">
+      <SectionHeading
+        eyebrow="The framework"
+        heading="The 8 Bridging Keys"
+        lede="Each key has 7 ways to help you gain a complete understanding of its purpose and how to use it in everyday life, in the human experience and the divine experience alike."
+        align="center"
+      />
+      <div class="key-grid">
+        {
+          keys.map((key) => (
+            <KeyCard
+              slug={key.id}
+              title={key.data.title}
+              essence={key.data.essence}
+              order={key.data.order}
+            />
+          ))
+        }
+      </div>
+      <div class="section-cta">
+        <CTA href="/8-bridging-keys/" label="Explore all eight keys" variant="ghost" />
+      </div>
+    </div>
+  </section>
+
+  {
+    videos.length > 0 && (
+      <section class="band" aria-label="Latest from the YouTube channel">
+        <div class="container">
+          <SectionHeading
+            eyebrow="On video"
+            heading="Latest from the channel"
+            lede="New teaching, reflections, and conversations from Becca's YouTube channel."
+          />
+          <div class="video-grid">
+            {videos.map((video) => (
+              <VideoCard
+                videoId={video.id}
+                title={video.title}
+                published={video.published}
+                thumbnail={video.thumbnail}
+              />
+            ))}
+          </div>
+          {YOUTUBE.channelUrl && (
+            <div class="section-cta">
+              <CTA href={YOUTUBE.channelUrl} label="Subscribe on YouTube" />
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }
+
+  <section class="band" aria-label="Latest from the blog">
+    <div class="container">
+      <BridgeMotif variant="divider" />
+      <SectionHeading eyebrow="In writing" heading="Latest from the blog" align="center" />
+      <div class="post-grid">
+        {
+          posts.map((post) => (
+            <PostCard
+              slug={post.id}
+              title={post.data.title}
+              description={post.data.description}
+              datePublished={post.data.datePublished}
+            />
+          ))
+        }
+      </div>
+      <div class="section-cta">
+        <CTA href="/blogs/" label="Read all posts" variant="ghost" />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-alt" aria-label="About Becca">
+    <div class="container-content about-teaser">
+      <SectionHeading eyebrow="The teacher" heading="Becca" level={2} />
+      <p>
+        Rebecca Sarah spent years walking other people through the hardest passages of their lives,
+        and years before that finding her own way back from the edge of hers. What she learned on
+        that road became The Life Doula Bridge, and teaching it is now her whole work. Her story is
+        where the philosophy comes from, and it is told in full on the About page.
+      </p>
+      <CTA href="/about/" label="Read Becca's story" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .philosophy p {
+    font-size: var(--text-md);
+    max-width: var(--measure-prose);
+  }
+
+  .key-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--space-md);
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: var(--space-md);
+  }
+
+  .section-cta {
+    display: flex;
+    justify-content: center;
+    margin-block-start: var(--space-xl);
+  }
+
+  .about-teaser p {
+    max-width: var(--measure-prose);
+    margin-block-end: var(--space-lg);
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import KeyCard from '../../components/KeyCard.astro';
+import { breadcrumbList } from '../../lib/jsonld';
+
+const keys = (await getCollection('keys')).sort((a, b) => a.data.order - b.data.order);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'The 8 Bridging Keys', href: '/8-bridging-keys/' },
+];
+---
+
+<BaseLayout
+  title="The 8 Bridging Keys"
+  description="The 8 Bridging Keys of The Life Doula Bridge: Access, Safe, Garden Learning, Journey, Become, Devotion, Blend and Share. Each key has 7 ways to use it."
+  path="/8-bridging-keys/"
+  jsonLd={[breadcrumbList(crumbs)]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+    <SectionHeading
+      eyebrow="The framework"
+      heading="The 8 Bridging Keys"
+      level={1}
+      lede="How to unite the human and spiritual experience: teaching and learning, for self and others, seen and unseen."
+    />
+    <div class="keys-intro">
+      <p>
+        Each Bridging Key has 7 ways to help gain a complete understanding of its purpose and how to
+        use it in everyday life. The keys are designed to apply to both the human experience and the
+        divine experience: the same key opens a door on each side of the bridge.
+      </p>
+      <p>
+        They are numbered because they build on one another, but there is no wrong door. Start with
+        the key that speaks to where you are, and every key page can be printed and used as a
+        teaching resource.
+      </p>
+    </div>
+    <div class="key-grid">
+      {
+        keys.map((key) => (
+          <KeyCard
+            slug={key.id}
+            title={key.data.title}
+            essence={key.data.essence}
+            order={key.data.order}
+          />
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .keys-intro {
+    max-width: var(--measure-prose);
+    margin-block-end: var(--space-xl);
+  }
+
+  .key-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--space-md);
+    margin-block-end: var(--space-2xl);
+  }
+</style>

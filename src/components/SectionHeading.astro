@@ -1,0 +1,51 @@
+---
+/**
+ * Consistent section opener: optional small eyebrow, display heading, and an
+ * optional lede line. Keeps heading hierarchy explicit via the level prop.
+ */
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  lede?: string;
+  level?: 1 | 2;
+  align?: 'start' | 'center';
+}
+
+const { eyebrow, heading, lede, level = 2, align = 'start' } = Astro.props;
+const Tag = level === 1 ? 'h1' : 'h2';
+---
+
+<div class:list={['section-heading', { 'is-center': align === 'center' }]}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Tag>{heading}</Tag>
+  {lede && <p class="lede">{lede}</p>}
+</div>
+
+<style>
+  .section-heading {
+    margin-block-end: var(--space-xl);
+  }
+
+  .is-center {
+    text-align: center;
+  }
+
+  .is-center .lede {
+    margin-inline: auto;
+  }
+
+  .eyebrow {
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-block-end: var(--space-xs);
+  }
+
+  .lede {
+    font-size: var(--text-md);
+    color: var(--color-ink-muted);
+    max-width: var(--measure-prose);
+    margin-block: var(--space-sm) 0;
+  }
+</style>

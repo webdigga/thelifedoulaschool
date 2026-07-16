@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import PostCard from '../../components/PostCard.astro';
+import { breadcrumbList } from '../../lib/jsonld';
+
+// Single-page index for now; introduce pagination with rel prev/next and
+// per-page canonicals once the post count outgrows one comfortable page.
+const posts = (await getCollection('posts')).sort(
+  (a, b) => b.data.datePublished.valueOf() - a.data.datePublished.valueOf(),
+);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blogs/' },
+];
+---
+
+<BaseLayout
+  title="Blog"
+  description="Writing from The Life Doula School: teaching and reflections on bridging heaven and earth, healing, confidence, purpose and everyday practical living."
+  path="/blogs/"
+  jsonLd={[breadcrumbList(crumbs)]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+    <SectionHeading
+      eyebrow="In writing"
+      heading="The blog"
+      level={1}
+      lede="Teaching and reflections by Rebecca Sarah: the spiritual and the practical, in the same breath."
+    />
+    <div class="post-grid">
+      {
+        posts.map((post) => (
+          <PostCard
+            slug={post.id}
+            title={post.data.title}
+            description={post.data.description}
+            datePublished={post.data.datePublished}
+          />
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: var(--space-md);
+    margin-block-end: var(--space-2xl);
+  }
+</style>

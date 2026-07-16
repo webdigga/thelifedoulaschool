@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="That page could not be found. Start again from the homepage, or explore the 8 Bridging Keys, the blog, and the story behind The Life Doula School."
+  path="/404/"
+  noindex={true}
+>
+  <div class="container-content notfound">
+    <p class="notfound-code" aria-hidden="true">404</p>
+    <h1>This page could not be found</h1>
+    <p>
+      It may have moved as part of the site's new direction, or the address may have been typed
+      differently. Wherever you were headed, these are good places to cross back over:
+    </p>
+    <ul>
+      <li><a href="/">Home: what the Life Doula Bridge is</a></li>
+      <li><a href="/8-bridging-keys/">The 8 Bridging Keys</a></li>
+      <li><a href="/blogs/">The blog</a></li>
+      <li><a href="/about/">About Rebecca Sarah</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding-block: var(--space-3xl);
+  }
+
+  .notfound-code {
+    font-family: var(--font-display);
+    font-size: var(--text-hero);
+    color: var(--color-glow);
+    margin: 0;
+    line-height: 1;
+  }
+</style>

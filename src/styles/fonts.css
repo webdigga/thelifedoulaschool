@@ -1,0 +1,8 @@
+/*
+ * The single place where font files are imported (see design-plan.md).
+ * Both faces are self-hosted via Fontsource with font-display: swap.
+ * To change faces: swap these imports and update --font-display / --font-body
+ * in src/styles/tokens.css.
+ */
+@import '@fontsource/marcellus/400.css';
+@import '@fontsource-variable/source-serif-4/index.css';

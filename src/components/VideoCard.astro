@@ -1,0 +1,42 @@
+---
+/**
+ * One channel video: facade embed plus title and date.
+ */
+import YouTubeFacade from './YouTubeFacade.astro';
+
+interface Props {
+  videoId: string;
+  title: string;
+  published: string;
+  thumbnail: string;
+}
+
+const { videoId, title, published, thumbnail } = Astro.props;
+const date = new Date(published);
+const displayDate = date.toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<article class="video-card">
+  <YouTubeFacade videoId={videoId} title={title} thumbnail={thumbnail} />
+  <h3 class="video-title">{title}</h3>
+  <p class="video-date">
+    <time datetime={date.toISOString().slice(0, 10)}>{displayDate}</time>
+  </p>
+</article>
+
+<style>
+  .video-title {
+    font-size: var(--text-md);
+    margin-block: var(--space-sm) var(--space-2xs);
+  }
+
+  .video-date {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    margin: 0;
+  }
+</style>

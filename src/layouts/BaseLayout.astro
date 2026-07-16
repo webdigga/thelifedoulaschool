@@ -1,0 +1,45 @@
+---
+/**
+ * The one layout every page uses. Head metadata flows through Seo; the body
+ * is skip link + header + main + footer. Redesigns touch tokens and
+ * components, never content (see CLAUDE.md standing rules).
+ */
+import '../styles/global.css';
+import Seo from '../components/Seo.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface OgImage {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  ogType?: 'website' | 'article';
+  ogImage?: OgImage;
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <Seo {...props} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

@@ -1,0 +1,84 @@
+---
+/**
+ * Footer: the deep indigo band that closes every page (design-plan.md,
+ * "earth at night"). Secondary navigation and only confirmed-current details.
+ */
+import { SITE } from '../config/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer no-print">
+  <div class="container footer-inner">
+    <div class="footer-identity">
+      <p class="footer-wordmark">The Life Doula School</p>
+      <p class="footer-strapline">Bridging heaven and earth. Ascending to joy.</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="/8-bridging-keys/">The 8 Bridging Keys</a></li>
+        <li><a href="/protocols/">Protocols of a Life Doula</a></li>
+        <li><a href="/core-beliefs/">The Three Core Beliefs</a></li>
+        <li><a href="/blogs/">Blog</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/privacy-policy/">Privacy policy</a></li>
+        <li><a href="/rss.xml">RSS feed</a></li>
+      </ul>
+    </nav>
+    <p class="footer-legal">
+      &copy; {year}
+      {SITE.name}. Written and taught by {SITE.author}.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-3xl);
+    background: var(--color-brand);
+    color: var(--color-brand-contrast);
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+
+  .footer-inner {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    margin: 0;
+  }
+
+  .footer-strapline {
+    margin: var(--space-2xs) 0 0;
+    opacity: 0.85;
+    font-size: var(--text-sm);
+  }
+
+  .footer-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-lg);
+  }
+
+  .footer-nav a,
+  .footer-legal a {
+    color: var(--color-brand-contrast);
+    text-decoration-color: var(--color-glow);
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+  }
+
+  .footer-legal {
+    margin: 0;
+    font-size: var(--text-xs);
+    opacity: 0.8;
+  }
+</style>

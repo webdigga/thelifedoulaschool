@@ -1,0 +1,27 @@
+/*
+ * Theme: dawn (default). The threshold hour at first light.
+ * Warm linen ground, dusk indigo brand, dawn gold accent.
+ * This file is the single source of truth for every colour on the site.
+ */
+:root {
+  --color-surface: #f6f3ec;
+  --color-surface-alt: #ece7da;
+  --color-ink: #262b38;
+  --color-ink-muted: #555b6e;
+  --color-brand: #3a4a6b;
+  --color-brand-strong: #2c3a56;
+  --color-brand-contrast: #f6f3ec;
+  --color-accent: #7d5f1e;
+  --color-glow: #c9a44f;
+  --color-line: #d9d2c0;
+  --color-focus: #3a4a6b;
+
+  /* Colour-bearing composite tokens */
+  --shadow-card: 0 1px 2px rgb(38 43 56 / 8%), 0 8px 24px rgb(38 43 56 / 6%);
+  --gradient-sky: linear-gradient(
+    to bottom,
+    rgb(58 74 107 / 7%),
+    rgb(201 164 79 / 9%) 62%,
+    transparent 62.5%
+  );
+}

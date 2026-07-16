@@ -1,0 +1,44 @@
+---
+/**
+ * One line-drawn icon per Bridging Key, all in the same 1.5 stroke style
+ * (brief §6: identity by structure and icon, never by an 8-colour system).
+ * Decorative: always rendered aria-hidden by consumers.
+ */
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+const PATHS: Record<string, string> = {
+  // an opening door within an arch
+  access: 'M5 20 V10 A7 7 0 0 1 19 10 V20 M9 20 V12 L14 10 V20',
+  // sheltering roof over level ground
+  safe: 'M4 12 L12 5 L20 12 M7 20 V13 M17 20 V13 M4 20 H20',
+  // a sprout with two leaves
+  'garden-learning':
+    'M12 21 V11 M12 13 C12 9 9 7 5 7 C5 11 8 13 12 13 M12 11 C12 8 15 5 19 5 C19 9 16 11 12 11',
+  // a winding path to the horizon
+  journey: 'M6 21 C14 17 4 12 12 8 C16 6 17 5 18 3 M15 4 H18 V7',
+  // a rising circle breaking the waterline
+  become: 'M6 14 A6 6 0 0 1 18 14 M3 18 H21 M9 21 H15',
+  // a steady flame
+  devotion: 'M12 4 C15 8 17 10 17 13 A5 5 0 0 1 7 13 C7 10 9 8 12 4 M10 20 H14',
+  // two circles sharing a centre (vesica)
+  blend:
+    'M9.5 8 A5.5 5.5 0 1 0 9.5 16.5 M14.5 8 A5.5 5.5 0 1 1 14.5 16.5 M12 6.5 A5.5 5.5 0 0 1 12 18',
+  // light passed from an open hand
+  share: 'M4 19 H13 C16 19 17 17 20 16 M4 15 H10 M14 10 V6 M11 11 L8.5 8.5 M17 11 L19.5 8.5',
+};
+
+const d = PATHS[slug] ?? PATHS.access;
+---
+
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <path
+    d={d}
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"></path>
+</svg>

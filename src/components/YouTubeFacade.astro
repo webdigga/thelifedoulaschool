@@ -1,0 +1,102 @@
+---
+/**
+ * Native lite-YouTube facade (brief §10): thumbnail plus play button only;
+ * the youtube-nocookie iframe is created on click. Zero YouTube JS on load.
+ * Usable in templates and from markdown-rendered slots.
+ */
+interface Props {
+  videoId: string;
+  title: string;
+  thumbnail?: string;
+}
+
+const {
+  videoId,
+  title,
+  thumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+} = Astro.props;
+---
+
+<div class="yt-facade" data-yt-facade data-video-id={videoId} data-video-title={title}>
+  <img src={thumbnail} alt="" width="480" height="360" loading="lazy" decoding="async" />
+  <button type="button" class="yt-play" data-yt-play>
+    <span class="visually-hidden">Play video: {title}</span>
+    <svg viewBox="0 0 68 48" width="56" aria-hidden="true">
+      <path
+        class="yt-play-bg"
+        d="M66.5 7.7c-.8-2.9-3.1-5.2-6-6C55.2.3 34 .3 34 .3S12.8.3 7.5 1.7c-2.9.8-5.2 3.1-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3c.8 2.9 3.1 5.2 6 6 5.3 1.4 26.5 1.4 26.5 1.4s21.2 0 26.5-1.4c2.9-.8 5.2-3.1 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z"
+      ></path>
+      <path class="yt-play-arrow" d="M45 24 27 14v20z"></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+  // Justified client-side JS (see CLAUDE.md): the facade exists precisely so
+  // no YouTube script loads before the visitor chooses to play a video.
+  function activate(facade: HTMLElement): void {
+    const videoId = facade.dataset.videoId;
+    const title = facade.dataset.videoTitle ?? 'YouTube video';
+    if (!videoId) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1`;
+    iframe.title = title;
+    iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    facade.replaceChildren(iframe);
+  }
+
+  for (const facade of document.querySelectorAll<HTMLElement>('[data-yt-facade]')) {
+    facade.querySelector('[data-yt-play]')?.addEventListener('click', () => activate(facade));
+  }
+</script>
+
+<style>
+  .yt-facade {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-surface-alt);
+  }
+
+  .yt-facade img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .yt-facade :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .yt-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .yt-play-bg {
+    fill: var(--color-brand);
+    opacity: 0.9;
+  }
+
+  .yt-play-arrow {
+    fill: var(--color-brand-contrast);
+  }
+
+  .yt-play:hover .yt-play-bg {
+    opacity: 1;
+  }
+</style>

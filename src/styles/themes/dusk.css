@@ -1,0 +1,26 @@
+/*
+ * Theme: dusk. The same threshold seen from the night side.
+ * Deep indigo ground, linen ink, brighter gold. A complete alternative look
+ * for client demos: swap the import in src/styles/theme.css.
+ */
+:root {
+  --color-surface: #1e2434;
+  --color-surface-alt: #262d42;
+  --color-ink: #eae7dd;
+  --color-ink-muted: #b0b4c4;
+  --color-brand: #aabde2;
+  --color-brand-strong: #c3d2ee;
+  --color-brand-contrast: #1e2434;
+  --color-accent: #d8b264;
+  --color-glow: #d8b264;
+  --color-line: #3c4460;
+  --color-focus: #aabde2;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 25%);
+  --gradient-sky: linear-gradient(
+    to bottom,
+    rgb(170 189 226 / 8%),
+    rgb(216 178 100 / 10%) 62%,
+    transparent 62.5%
+  );
+}

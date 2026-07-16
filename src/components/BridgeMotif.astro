@@ -1,0 +1,101 @@
+---
+/**
+ * The site's one signature visual (design-plan.md): an abstract bridge arc
+ * over a horizon line, with light rising from where they meet. Purely
+ * decorative, token-coloured, and deletable in this one place.
+ *
+ * variant "hero": large backdrop. variant "divider": small centred ornament.
+ */
+interface Props {
+  variant?: 'hero' | 'divider';
+}
+
+const { variant = 'hero' } = Astro.props;
+---
+
+{
+  variant === 'hero' ? (
+    <svg
+      class="motif motif-hero"
+      viewBox="0 0 1200 420"
+      preserveAspectRatio="xMidYMax slice"
+      aria-hidden="true"
+    >
+      <g class="rays">
+        <line x1="600" y1="330" x2="600" y2="40" />
+        <line x1="600" y1="330" x2="420" y2="70" />
+        <line x1="600" y1="330" x2="780" y2="70" />
+        <line x1="600" y1="330" x2="260" y2="140" />
+        <line x1="600" y1="330" x2="940" y2="140" />
+        <line x1="600" y1="330" x2="140" y2="240" />
+        <line x1="600" y1="330" x2="1060" y2="240" />
+      </g>
+      <path class="arc arc-main" d="M -40 420 Q 600 210 1240 420" />
+      <path class="arc arc-echo" d="M 40 420 Q 600 262 1160 420" />
+      <line class="horizon" x1="0" y1="330" x2="1200" y2="330" />
+    </svg>
+  ) : (
+    <svg class="motif motif-divider" viewBox="0 0 120 28" aria-hidden="true">
+      <path class="arc arc-main" d="M 10 24 Q 60 4 110 24" />
+      <line class="horizon" x1="34" y1="24" x2="86" y2="24" />
+    </svg>
+  )
+}
+
+<style>
+  .motif {
+    display: block;
+    pointer-events: none;
+  }
+
+  .motif-hero {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .motif-divider {
+    width: 7.5rem;
+    margin-inline: auto;
+  }
+
+  .rays line {
+    stroke: var(--color-glow);
+    stroke-width: 1;
+    opacity: 0.35;
+  }
+
+  .arc {
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  .arc-main {
+    stroke: var(--color-brand);
+    stroke-width: 3;
+    opacity: 0.8;
+  }
+
+  .arc-echo {
+    stroke: var(--color-glow);
+    stroke-width: 1.5;
+    opacity: 0.7;
+  }
+
+  .horizon {
+    stroke: var(--color-ink-muted);
+    stroke-width: 1;
+    opacity: 0.4;
+  }
+
+  .motif-divider .arc-main {
+    stroke: var(--color-glow);
+    stroke-width: 2;
+  }
+
+  .motif-divider .horizon {
+    stroke: var(--color-line);
+    opacity: 1;
+  }
+</style>

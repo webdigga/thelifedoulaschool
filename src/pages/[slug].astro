@@ -1,0 +1,225 @@
+---
+/**
+ * Blog post template. Posts live at root-level URLs (e.g. /welcome-to-my-blog/)
+ * because those are the live site's indexed URLs (docs/redirects.md).
+ */
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Prose from '../components/Prose.astro';
+import KeyIcon from '../components/KeyIcon.astro';
+import { breadcrumbList, blogPosting } from '../lib/jsonld';
+import { SITE } from '../config/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const allPosts = (await getCollection('posts')).sort(
+  (a, b) => b.data.datePublished.valueOf() - a.data.datePublished.valueOf(),
+);
+const index = allPosts.findIndex((entry) => entry.id === post.id);
+const newerPost = index > 0 ? allPosts[index - 1] : undefined;
+const olderPost = index < allPosts.length - 1 ? allPosts[index + 1] : undefined;
+
+const relatedKeys = (await getCollection('keys'))
+  .filter((key) => post.data.relatedKeys.includes(key.id))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blogs/' },
+  { label: post.data.title, href: `/${post.id}/` },
+];
+
+const ogImage = post.data.ogImage ?? SITE.ogDefault;
+
+const jsonLd = [
+  blogPosting({
+    path: `/${post.id}/`,
+    title: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.datePublished,
+    dateModified: post.data.dateModified,
+    imageUrl: new URL(ogImage.src, SITE.url).href,
+  }),
+  breadcrumbList(crumbs),
+];
+
+const published = post.data.datePublished;
+const modified = post.data.dateModified;
+const wasUpdated = modified.valueOf() - published.valueOf() > 24 * 60 * 60 * 1000;
+
+const formatDate = (date: Date): string =>
+  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout
+  title={post.data.seoTitle ?? post.data.title}
+  description={post.data.description}
+  path={`/${post.id}/`}
+  ogType="article"
+  ogImage={ogImage}
+  jsonLd={jsonLd}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+    <article class="post">
+      <header class="post-header">
+        <h1>{post.data.title}</h1>
+        <p class="post-byline">
+          By <a href="/about/" rel="author">{SITE.author}</a>
+        </p>
+        <p class="post-dates">
+          Published <time datetime={published.toISOString().slice(0, 10)}
+            >{formatDate(published)}</time
+          >
+          {
+            wasUpdated && (
+              <>
+                <span aria-hidden="true"> · </span>
+                Updated{' '}
+                <time datetime={modified.toISOString().slice(0, 10)}>{formatDate(modified)}</time>
+              </>
+            )
+          }
+        </p>
+      </header>
+      <Prose><Content /></Prose>
+
+      {
+        relatedKeys.length > 0 && (
+          <aside class="post-keys no-print" aria-label="Related Bridging Keys">
+            <h2>Bridging Keys this touches</h2>
+            <ul>
+              {relatedKeys.map((key) => (
+                <li>
+                  <a href={`/8-bridging-keys/${key.id}/`}>
+                    <span class="post-key-icon" aria-hidden="true">
+                      <KeyIcon slug={key.id} />
+                    </span>
+                    {key.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )
+      }
+    </article>
+
+    <nav class="post-pagination no-print" aria-label="More posts">
+      {
+        olderPost ? (
+          <a href={`/${olderPost.id}/`} rel="prev">
+            Older: {olderPost.data.title}
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        newerPost ? (
+          <a href={`/${newerPost.id}/`} rel="next">
+            Newer: {newerPost.data.title}
+          </a>
+        ) : (
+          <span />
+        )
+      }
+    </nav>
+  </div>
+</BaseLayout>
+
+<style>
+  .post {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding-block: var(--space-lg) var(--space-xl);
+  }
+
+  .post-header {
+    margin-block-end: var(--space-xl);
+  }
+
+  .post-byline {
+    margin-block-end: var(--space-2xs);
+  }
+
+  .post-byline a {
+    color: var(--color-accent);
+  }
+
+  .post-dates {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+  }
+
+  .post-keys {
+    margin-block-start: var(--space-2xl);
+    padding: var(--space-lg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-alt);
+  }
+
+  .post-keys h2 {
+    font-size: var(--text-md);
+    margin-block-end: var(--space-sm);
+  }
+
+  .post-keys ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  .post-keys a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: var(--tap-min);
+    text-decoration: none;
+    font-family: var(--font-display);
+  }
+
+  .post-keys a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-glow);
+  }
+
+  .post-key-icon {
+    display: inline-flex;
+    inline-size: 1.5rem;
+    color: var(--color-accent);
+  }
+
+  .post-pagination {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+    border-top: 1px solid var(--color-line);
+    padding-block: var(--space-lg) var(--space-xl);
+    flex-wrap: wrap;
+  }
+
+  .post-pagination a {
+    min-height: var(--tap-min);
+    display: inline-flex;
+    align-items: center;
+  }
+</style>

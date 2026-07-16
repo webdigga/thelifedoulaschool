@@ -1,0 +1,52 @@
+---
+/**
+ * Link styled as a button. Two variants; both meet the 44px touch floor.
+ */
+interface Props {
+  href: string;
+  label: string;
+  variant?: 'solid' | 'ghost';
+}
+
+const { href, label, variant = 'solid' } = Astro.props;
+---
+
+<a class:list={['cta', `cta-${variant}`]} href={href}>{label}</a>
+
+<style>
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tap-min);
+    padding: var(--space-xs) var(--space-lg);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-base);
+    text-decoration: none;
+    transition:
+      background var(--motion-quick) var(--ease-soft),
+      color var(--motion-quick) var(--ease-soft);
+  }
+
+  .cta-solid {
+    background: var(--color-brand);
+    color: var(--color-brand-contrast);
+    border: 1px solid var(--color-brand);
+  }
+
+  .cta-solid:hover {
+    background: var(--color-brand-strong);
+    color: var(--color-brand-contrast);
+  }
+
+  .cta-ghost {
+    background: none;
+    color: var(--color-brand);
+    border: 1px solid var(--color-line);
+  }
+
+  .cta-ghost:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand-strong);
+  }
+</style>

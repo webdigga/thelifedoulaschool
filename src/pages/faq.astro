@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { breadcrumbList } from '../lib/jsonld';
+
+const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.order);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'FAQ', href: '/faq/' },
+];
+
+// FAQPage JSON-LD mirrors the visible content below exactly (brief §8).
+const faqJsonLd = {
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.data.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.data.answer },
+  })),
+};
+---
+
+<BaseLayout
+  title="Frequently Asked Questions"
+  description="What a Life Doula is, what The Life Doula Bridge teaches, whether you need to be religious, and how to use the 8 Bridging Keys in everyday life."
+  path="/faq/"
+  jsonLd={[faqJsonLd, breadcrumbList(crumbs)]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="faq">
+      <SectionHeading
+        eyebrow="Questions"
+        heading="Frequently asked questions"
+        level={1}
+        lede="Honest answers about the teaching, in plain language. Anything unanswered is welcome by email."
+      />
+      <dl class="faq-list">
+        {
+          faqs.map((faq) => (
+            <div class="faq-item">
+              <dt>{faq.data.question}</dt>
+              <dd>{faq.data.answer}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .faq {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding-block: var(--space-lg) var(--space-2xl);
+  }
+
+  .faq-list {
+    margin: 0;
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .faq-item {
+    padding: var(--space-lg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .faq-item dt {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    margin-block-end: var(--space-xs);
+  }
+
+  .faq-item dd {
+    margin: 0;
+    color: var(--color-ink-muted);
+  }
+</style>

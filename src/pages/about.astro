@@ -1,0 +1,93 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Prose from '../components/Prose.astro';
+import TestimonialQuote from '../components/TestimonialQuote.astro';
+import BridgeMotif from '../components/BridgeMotif.astro';
+import { breadcrumbList, PERSON_ID } from '../lib/jsonld';
+import { SITE } from '../config/site';
+
+const page = await getEntry('pages', 'about');
+if (!page) throw new Error('Missing pages/about.md content entry');
+const { Content } = await render(page);
+
+const testimonials = await getCollection('testimonials');
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about/' },
+];
+
+// This page is the canonical author hub (E-E-A-T): the ProfilePage node
+// points at the site-wide Person entity emitted by Seo on every page.
+const profileJsonLd = {
+  '@type': 'ProfilePage',
+  '@id': `${SITE.url}/about/#profilepage`,
+  mainEntity: { '@id': PERSON_ID },
+  inLanguage: 'en-GB',
+};
+---
+
+<BaseLayout
+  title="About Rebecca Sarah"
+  description={page.data.description}
+  path="/about/"
+  jsonLd={[profileJsonLd, breadcrumbList(crumbs)]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+    <article class="about">
+      <h1>{page.data.title}</h1>
+      <Prose><Content /></Prose>
+    </article>
+
+    <section class="about-testimonials" aria-label="What people say about Becca">
+      <BridgeMotif variant="divider" />
+      <h2>Kind words</h2>
+      <p class="testimonial-note">From people Becca walked beside in her years of 1:1 work.</p>
+      <div class="testimonial-grid">
+        {
+          testimonials.map((testimonial) => (
+            <TestimonialQuote
+              heading={testimonial.data.heading}
+              quote={testimonial.data.quote}
+              name={testimonial.data.name}
+            />
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .about {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding-block: var(--space-lg) var(--space-2xl);
+  }
+
+  .about-testimonials {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding-block-end: var(--space-xl);
+  }
+
+  .about-testimonials h2 {
+    text-align: center;
+    margin-block-start: var(--space-lg);
+  }
+
+  .testimonial-note {
+    text-align: center;
+    color: var(--color-ink-muted);
+    font-size: var(--text-sm);
+    margin-block-end: var(--space-lg);
+  }
+
+  .testimonial-grid {
+    display: grid;
+    gap: var(--space-md);
+  }
+</style>

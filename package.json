@@ -1,0 +1,53 @@
+{
+  "name": "thelifedoulaschool",
+  "version": "1.0.0",
+  "description": "The Life Doula School: Bridging Heaven and Earth. Fully static Astro site.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"src/**/*.css\" \"src/**/*.astro\"",
+    "check": "astro check",
+    "test:build": "astro build && node scripts/check-links.mjs",
+    "og:generate": "node scripts/generate-og.mjs",
+    "contrast:audit": "node scripts/check-contrast.mjs",
+    "prepare": "husky || true"
+  },
+  "lint-staged": {
+    "*.{astro,js,mjs,ts,css,md,json,yml,yaml}": "prettier --write",
+    "*.{astro,js,mjs,ts}": "eslint --fix",
+    "*.{css,astro}": "stylelint --fix"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource-variable/source-serif-4": "^5.2.9",
+    "@fontsource/marcellus": "^5.2.8",
+    "astro": "^7.0.9"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@typescript-eslint/parser": "^8.64.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-astro": "^1.7.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "postcss-html": "^1.8.1",
+    "prettier": "^3.9.5",
+    "prettier-plugin-astro": "^0.14.1",
+    "sharp": "^0.35.3",
+    "stylelint": "^17.14.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript": "~6.0.3"
+  }
+}

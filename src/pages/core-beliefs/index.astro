@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { breadcrumbList } from '../../lib/jsonld';
+
+const beliefs = (await getCollection('beliefs')).sort((a, b) => a.data.order - b.data.order);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'The Three Core Beliefs', href: '/core-beliefs/' },
+];
+---
+
+<BaseLayout
+  title="The Three Core Beliefs"
+  description="The three core beliefs beneath The Life Doula Bridge: Life is an Illusion, Sub-Atomic Life Mapping, and Christ as the Key. Held gently, never imposed."
+  path="/core-beliefs/"
+  jsonLd={[breadcrumbList(crumbs)]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="beliefs">
+      <SectionHeading
+        eyebrow="The foundations"
+        heading="The Three Core Beliefs"
+        level={1}
+        lede="Every bridge stands on foundations. These are the three beliefs beneath this one: held gently, offered openly, and never imposed."
+      />
+      <ol class="belief-list">
+        {
+          beliefs.map((belief) => (
+            <li class="belief-card">
+              <p class="belief-number" aria-hidden="true">
+                {belief.data.order}
+              </p>
+              <h2>
+                <a href={`/core-beliefs/${belief.id}/`}>{belief.data.title}</a>
+              </h2>
+              <p class="belief-essence">{belief.data.essence}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .beliefs {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding-block: var(--space-lg) var(--space-2xl);
+  }
+
+  .belief-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .belief-card {
+    padding: var(--space-lg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .belief-number {
+    font-family: var(--font-display);
+    color: var(--color-glow);
+    font-size: var(--text-xl);
+    margin: 0;
+    line-height: 1;
+  }
+
+  .belief-card h2 {
+    margin-block: var(--space-xs);
+  }
+
+  .belief-card h2 a {
+    text-decoration: none;
+    color: var(--color-brand);
+  }
+
+  .belief-card h2 a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-glow);
+  }
+
+  .belief-essence {
+    margin: 0;
+    color: var(--color-ink-muted);
+  }
+</style>

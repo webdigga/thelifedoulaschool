@@ -1,0 +1,26 @@
+/*
+ * Theme: garden. Morning light through leaves.
+ * Green-white ground, moss brand, wisteria accent. A complete alternative look
+ * for client demos: swap the import in src/styles/theme.css.
+ */
+:root {
+  --color-surface: #f3f5ee;
+  --color-surface-alt: #e7ecdc;
+  --color-ink: #29322b;
+  --color-ink-muted: #576055;
+  --color-brand: #3d5a48;
+  --color-brand-strong: #2f4839;
+  --color-brand-contrast: #f3f5ee;
+  --color-accent: #635086;
+  --color-glow: #a4b578;
+  --color-line: #d2dac3;
+  --color-focus: #3d5a48;
+
+  --shadow-card: 0 1px 2px rgb(41 50 43 / 8%), 0 8px 24px rgb(41 50 43 / 6%);
+  --gradient-sky: linear-gradient(
+    to bottom,
+    rgb(61 90 72 / 7%),
+    rgb(164 181 120 / 12%) 62%,
+    transparent 62.5%
+  );
+}

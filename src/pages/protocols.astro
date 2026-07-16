@@ -1,0 +1,45 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Prose from '../components/Prose.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { breadcrumbList } from '../lib/jsonld';
+
+const page = await getEntry('pages', 'protocols');
+if (!page) throw new Error('Missing pages/protocols.md content entry');
+const { Content } = await render(page);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Protocols of a Life Doula', href: '/protocols/' },
+];
+---
+
+<BaseLayout
+  title="Protocols of a Life Doula"
+  description={page.data.description}
+  path="/protocols/"
+  jsonLd={[breadcrumbList(crumbs)]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="protocols">
+      <SectionHeading
+        eyebrow="The promises"
+        heading={page.data.title}
+        level={1}
+        lede="We do not push, promote, judge or force."
+      />
+      <Prose><Content /></Prose>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .protocols {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding-block: var(--space-lg) var(--space-2xl);
+  }
+</style>

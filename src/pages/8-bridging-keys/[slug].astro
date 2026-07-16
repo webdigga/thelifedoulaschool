@@ -1,0 +1,332 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import KeyIcon from '../../components/KeyIcon.astro';
+import KeyDiagram from '../../components/KeyDiagram.astro';
+import PostCard from '../../components/PostCard.astro';
+import PrintButton from '../../components/PrintButton.astro';
+import Prose from '../../components/Prose.astro';
+import { breadcrumbList } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const keys = await getCollection('keys');
+  return keys.map((key) => ({ params: { slug: key.id }, props: { key } }));
+}
+
+interface Props {
+  key: CollectionEntry<'keys'>;
+}
+
+const { key } = Astro.props;
+const { Content } = await render(key);
+
+const allKeys = (await getCollection('keys')).sort((a, b) => a.data.order - b.data.order);
+const prevKey = allKeys.find((entry) => entry.data.order === key.data.order - 1);
+const nextKey = allKeys.find((entry) => entry.data.order === key.data.order + 1);
+
+const relatedPosts = (await getCollection('posts'))
+  .filter((post) => post.data.relatedKeys.includes(key.id))
+  .sort((a, b) => b.data.datePublished.valueOf() - a.data.datePublished.valueOf())
+  .slice(0, 3);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'The 8 Bridging Keys', href: '/8-bridging-keys/' },
+  { label: key.data.title, href: `/8-bridging-keys/${key.id}/` },
+];
+
+const hasWays = key.data.sevenWays.length === 7;
+---
+
+<BaseLayout
+  title={`${key.data.title}: Bridging Key ${key.data.order} of 8`}
+  description={key.data.description}
+  path={`/8-bridging-keys/${key.id}/`}
+  jsonLd={[breadcrumbList(crumbs)]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+
+    <header class="key-header">
+      <span class="key-header-icon" aria-hidden="true"><KeyIcon slug={key.id} /></span>
+      <p class="key-kicker">Bridging Key {key.data.order} of 8</p>
+      <h1>{key.data.title}</h1>
+      <p class="key-essence">{key.data.essence}</p>
+      <PrintButton />
+    </header>
+
+    <section class="key-summary" aria-label="Summary">
+      <Prose><Content /></Prose>
+    </section>
+
+    <section class="key-ways" aria-label="The 7 ways">
+      <h2>The 7 Ways of {key.data.title}</h2>
+      {
+        hasWays ? (
+          <ol class="ways-list">
+            {key.data.sevenWays.map((way) => (
+              <li>
+                <h3>{way.title}</h3>
+                <p>{way.summary}</p>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <div class="ways-placeholder">
+            <p>
+              Every Bridging Key is taught through 7 ways: seven practical doors into its purpose,
+              for everyday life and the life unseen. Becca is preparing the seven ways of{' '}
+              {key.data.title}, and they will take their places below as they arrive.
+            </p>
+            <ol class="ways-ghost" aria-hidden="true">
+              {[1, 2, 3, 4, 5, 6, 7].map((number) => (
+                <li>{number}</li>
+              ))}
+            </ol>
+          </div>
+        )
+      }
+    </section>
+
+    <section class="key-diagram-slot" aria-label="Diagram">
+      <h2>The {key.data.title} key at a glance</h2>
+      <KeyDiagram keyTitle={key.data.title} ways={key.data.sevenWays} />
+    </section>
+
+    <section class="key-applications" aria-label="Applying this key">
+      <h2>Applying {key.data.title}</h2>
+      <div class="application-columns">
+        <div class="application">
+          <h3>In the human experience</h3>
+          {
+            key.data.humanExperience ? (
+              <p>{key.data.humanExperience}</p>
+            ) : (
+              <p class="application-placeholder">
+                How {key.data.title} works in daily, practical life: Becca's teaching for this side
+                of the bridge is on its way.
+              </p>
+            )
+          }
+        </div>
+        <div class="application">
+          <h3>In the spiritual experience</h3>
+          {
+            key.data.spiritualExperience ? (
+              <p>{key.data.spiritualExperience}</p>
+            ) : (
+              <p class="application-placeholder">
+                How {key.data.title} opens the unseen side of the bridge: Becca's teaching for this
+                side is on its way.
+              </p>
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    {
+      relatedPosts.length > 0 && (
+        <section class="key-related no-print" aria-label="Related writing">
+          <h2>Writing that touches this key</h2>
+          <div class="related-grid">
+            {relatedPosts.map((post) => (
+              <PostCard
+                slug={post.id}
+                title={post.data.title}
+                description={post.data.description}
+                datePublished={post.data.datePublished}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <nav class="key-pagination no-print" aria-label="Key navigation">
+      {
+        prevKey ? (
+          <a class="pagination-link" href={`/8-bridging-keys/${prevKey.id}/`} rel="prev">
+            <span class="pagination-label">Previous key</span>
+            <span class="pagination-title">
+              {prevKey.data.order}. {prevKey.data.title}
+            </span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        nextKey ? (
+          <a class="pagination-link is-next" href={`/8-bridging-keys/${nextKey.id}/`} rel="next">
+            <span class="pagination-label">Next key</span>
+            <span class="pagination-title">
+              {nextKey.data.order}. {nextKey.data.title}
+            </span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+    </nav>
+  </div>
+</BaseLayout>
+
+<style>
+  .key-header {
+    text-align: center;
+    padding-block: var(--space-xl);
+  }
+
+  .key-header-icon {
+    display: inline-block;
+    inline-size: 3rem;
+    color: var(--color-accent);
+  }
+
+  .key-kicker {
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    margin-block: var(--space-sm) var(--space-xs);
+  }
+
+  .key-header h1 {
+    font-size: var(--text-2xl);
+    margin-block-end: var(--space-xs);
+  }
+
+  .key-essence {
+    font-size: var(--text-md);
+    color: var(--color-ink-muted);
+    max-width: 40ch;
+    margin-inline: auto;
+    margin-block-end: var(--space-md);
+  }
+
+  .key-summary {
+    display: flex;
+    justify-content: center;
+    margin-block-end: var(--space-2xl);
+  }
+
+  .key-ways,
+  .key-diagram-slot,
+  .key-applications,
+  .key-related {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    margin-block-end: var(--space-2xl);
+  }
+
+  .ways-list {
+    list-style: none;
+    counter-reset: ways;
+    padding: 0;
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .ways-list li {
+    counter-increment: ways;
+    padding: var(--space-lg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .ways-list h3::before {
+    content: counter(ways) '. ';
+    color: var(--color-accent);
+    font-family: var(--font-display);
+  }
+
+  .ways-placeholder {
+    border: 1px dashed var(--color-line);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    background: var(--color-surface-alt);
+  }
+
+  .ways-placeholder p {
+    max-width: var(--measure-prose);
+    color: var(--color-ink-muted);
+  }
+
+  .ways-ghost {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-md) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .ways-ghost li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    border: 1px dashed var(--color-glow);
+    border-radius: var(--radius-pill);
+    color: var(--color-ink-muted);
+    font-family: var(--font-display);
+  }
+
+  .application-columns {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+
+  .application {
+    padding: var(--space-lg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+  }
+
+  .application-placeholder {
+    color: var(--color-ink-muted);
+  }
+
+  .related-grid {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+
+  .key-pagination {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+    border-top: 1px solid var(--color-line);
+    padding-block: var(--space-lg) var(--space-xl);
+  }
+
+  .pagination-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    text-decoration: none;
+    min-height: var(--tap-min);
+    justify-content: center;
+  }
+
+  .pagination-link.is-next {
+    text-align: end;
+  }
+
+  .pagination-label {
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+  }
+
+  .pagination-title {
+    font-family: var(--font-display);
+    color: var(--color-brand);
+  }
+</style>

@@ -1,0 +1,104 @@
+---
+/**
+ * Single head component consumed by BaseLayout on every page.
+ * Emits the full metadata set required by docs/seo-checklist.md plus the
+ * connected WebSite + Person JSON-LD graph; page types append their own
+ * nodes (BlogPosting, BreadcrumbList, FAQPage...) via the jsonLd prop.
+ */
+import { SITE, SAME_AS } from '../config/site';
+import { PERSON_ID, WEBSITE_ID } from '../lib/jsonld';
+import marcellusWoff2 from '@fontsource/marcellus/files/marcellus-latin-400-normal.woff2?url';
+
+interface OgImage {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  /** Canonical path, starting and ending with '/'. */
+  path: string;
+  ogType?: 'website' | 'article';
+  ogImage?: OgImage;
+  /** Extra JSON-LD graph nodes, connected via @id where relevant. */
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  ogType = 'website',
+  ogImage = SITE.ogDefault,
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(path, SITE.url).href;
+const fullTitle = `${title}${SITE.titleSuffix}`;
+const ogImageUrl = new URL(ogImage.src, SITE.url).href;
+
+const graph = [
+  {
+    '@type': 'WebSite',
+    '@id': WEBSITE_ID,
+    url: `${SITE.url}/`,
+    name: SITE.name,
+    alternateName: SITE.alternateName,
+    description: SITE.description,
+    inLanguage: 'en-GB',
+    publisher: { '@id': PERSON_ID },
+  },
+  {
+    '@type': 'Person',
+    '@id': PERSON_ID,
+    name: SITE.author,
+    url: `${SITE.url}/about/`,
+    description:
+      'Teacher of The Life Doula Bridge, a living philosophy for bridging heaven and earth in everyday life.',
+    ...(SAME_AS.length > 0 ? { sameAs: [...SAME_AS] } : {}),
+  },
+  ...jsonLd,
+];
+
+// <-escaping prevents a crafted string from closing the script element.
+const jsonLdSafe = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(
+  /</g,
+  '\\u003c',
+);
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, follow" />}
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" title={`${SITE.name} blog`} href="/rss.xml" />
+<link rel="preload" href={marcellusWoff2} as="font" type="font/woff2" crossorigin />
+
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content={String(ogImage.width)} />
+<meta property="og:image:height" content={String(ogImage.height)} />
+<meta property="og:image:alt" content={ogImage.alt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:image:alt" content={ogImage.alt} />
+
+{/* JSON-LD requires raw output; the string is JSON.stringify-escaped above. */}
+<script type="application/ld+json" set:html={jsonLdSafe} />
