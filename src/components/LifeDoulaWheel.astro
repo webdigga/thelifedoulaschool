@@ -1,0 +1,127 @@
+---
+/**
+ * The Life Doula Wheel, rebuilt as a native SVG from the client's book
+ * document (2026-07-16). Ring wording and colours are her specification
+ * verbatim (see src/content/book-wheel.json): they are content, fixed across
+ * site themes, so the fills come from the data rather than theme tokens.
+ * The restrained site palette rule (no rainbow systems) applies to chrome,
+ * not to her own diagrams.
+ */
+import { getCollection } from 'astro:content';
+
+const rings = (await getCollection('wheelRings')).sort((a, b) => b.data.ring - a.data.ring);
+
+const CENTRE = 200;
+const OUTER_RADIUS = 190;
+const BAND = 22;
+
+// Outermost ring (7, black) first, so later circles stack inward on top.
+const circles = rings.map((entry, index) => ({
+  colour: entry.data.colour,
+  radius: OUTER_RADIUS - index * BAND,
+}));
+
+const description = `The Life Doula Wheel: seven concentric rings from the outside in: ${rings
+  .map((entry) => `${entry.data.colourName}, ${entry.data.stage}`)
+  .join('; ')}.`;
+---
+
+<figure class="wheel">
+  <svg viewBox="0 0 400 400" role="img" aria-label={description}>
+    {
+      circles.map((circle) => (
+        <circle cx={CENTRE} cy={CENTRE} r={circle.radius} fill={circle.colour} />
+      ))
+    }
+  </svg>
+  <figcaption>The Life Doula Wheel. 'The Wheel Turns and the Path Narrows'</figcaption>
+</figure>
+
+<div class="wheel-table-wrap">
+  <table class="wheel-table">
+    <caption class="visually-hidden">
+      The seven rings of the Life Doula Wheel: stage, cycle, guide, their role, and purpose
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Ring</th>
+        <th scope="col">Life Doula Wheel</th>
+        <th scope="col">Cycle</th>
+        <th scope="col">Who guides me</th>
+        <th scope="col">Their role</th>
+        <th scope="col">Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rings.map((entry) => (
+          <tr>
+            <td>
+              <span class="ring-swatch" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="14">
+                  <circle cx="8" cy="8" r="7" fill={entry.data.colour} />
+                </svg>
+              </span>
+              {entry.data.ring}
+            </td>
+            <td>{entry.data.stage}</td>
+            <td>{entry.data.cycle}</td>
+            <td>{entry.data.guide}</td>
+            <td>{entry.data.role}</td>
+            <td>{entry.data.purpose}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .wheel {
+    margin: 0 0 var(--space-xl);
+  }
+
+  .wheel svg {
+    display: block;
+    width: min(100%, 22rem);
+    margin-inline: auto;
+  }
+
+  .wheel figcaption {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+    margin-block-start: var(--space-sm);
+    font-style: italic;
+  }
+
+  .wheel-table-wrap {
+    overflow-x: auto;
+  }
+
+  .wheel-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: var(--text-sm);
+  }
+
+  .wheel-table th,
+  .wheel-table td {
+    text-align: start;
+    padding: var(--space-sm);
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+  }
+
+  .wheel-table th {
+    font-family: var(--font-display);
+    font-weight: 400;
+    color: var(--color-ink-muted);
+  }
+
+  .ring-swatch {
+    display: inline-block;
+    margin-inline-end: var(--space-2xs);
+    vertical-align: middle;
+  }
+</style>

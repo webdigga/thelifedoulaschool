@@ -95,6 +95,27 @@ const faqs = defineCollection({
   }),
 });
 
+/**
+ * The Life Doula Wheel rings, from the client's book document (2026-07-16).
+ * Wording is hers verbatim; colours reproduce her diagram's colour intent and
+ * are content, not theme (they never change with the site theme).
+ */
+const wheelRings = defineCollection({
+  loader: file('./src/content/book-wheel.json'),
+  schema: z.object({
+    id: z.string(),
+    ring: z.number().int().min(1).max(7),
+    colour: z.string().regex(/^#[0-9a-f]{6}$/),
+    colourName: z.string(),
+    stage: z.string(),
+    cycle: z.string(),
+    guide: z.string(),
+    role: z.string(),
+    purpose: z.string(),
+    inCourse: z.boolean(),
+  }),
+});
+
 const testimonials = defineCollection({
   loader: file('./src/content/testimonials.json'),
   schema: z.object({
@@ -105,4 +126,4 @@ const testimonials = defineCollection({
   }),
 });
 
-export const collections = { keys, beliefs, posts, pages, faqs, testimonials };
+export const collections = { keys, beliefs, posts, pages, faqs, testimonials, wheelRings };

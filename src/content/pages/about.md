@@ -29,7 +29,7 @@ With the weight lifted, I turned to the question underneath it all: what is my l
 
 ### A life's work, still being written
 
-The writing that began on that road has kept growing. What started as one book, _Birthing the New You, Releasing the Old_, has become three, all still being written alongside the Bridging Keys themselves. The teaching also arrives as diagrams I design by hand, including a karma wheel I was asked to make in a dream. None of it is rushed. This is a life's work now, and it will be shared here as each part becomes ready.
+The writing that began on that road has kept growing. What started as one book has become three, beginning with [_Birthing Joy ~ Releasing Pain_](/book/), all still being written alongside the Bridging Keys themselves. The teaching also arrives as diagrams I design by hand, including the Life Doula Wheel that maps the whole journey. None of it is rushed. This is a life's work now, and it will be shared here as each part becomes ready.
 
 ## Experience that shaped the teaching
 

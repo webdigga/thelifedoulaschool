@@ -1,0 +1,86 @@
+[
+  {
+    "id": "ring-7",
+    "ring": 7,
+    "colour": "#000000",
+    "colourName": "Black",
+    "stage": "Fear",
+    "cycle": "Death",
+    "guide": "Guardian Angel",
+    "role": "Messenger of Hope",
+    "purpose": "Possibilities are illuminated",
+    "inCourse": true
+  },
+  {
+    "id": "ring-6",
+    "ring": 6,
+    "colour": "#df2b1c",
+    "colourName": "Red",
+    "stage": "Acceptance",
+    "cycle": "Conception",
+    "guide": "Divine Mother",
+    "role": "Midwife",
+    "purpose": "Helps me prepare to receive Divine Love",
+    "inCourse": true
+  },
+  {
+    "id": "ring-5",
+    "ring": 5,
+    "colour": "#f0a51e",
+    "colourName": "Gold",
+    "stage": "Transformation",
+    "cycle": "Gestation",
+    "guide": "Jesus",
+    "role": "Wayshower",
+    "purpose": "Through Christ I become the key I can open the door to Gods love",
+    "inCourse": true
+  },
+  {
+    "id": "ring-4",
+    "ring": 4,
+    "colour": "#2f9e4c",
+    "colourName": "Green",
+    "stage": "Co-Creation",
+    "cycle": "Birth",
+    "guide": "Soul / inner child",
+    "role": "Bridge",
+    "purpose": "My soul becomes the bridge I create heaven on Earth",
+    "inCourse": true
+  },
+  {
+    "id": "ring-3",
+    "ring": 3,
+    "colour": "#5b8fd4",
+    "colourName": "Light blue",
+    "stage": "Unification",
+    "cycle": "Abundance",
+    "guide": "Father/Mother aspect of God & the Son Jesus",
+    "role": "Mentoring",
+    "purpose": "Together we share knowledge & teach Love",
+    "inCourse": false
+  },
+  {
+    "id": "ring-2",
+    "ring": 2,
+    "colour": "#14235f",
+    "colourName": "Dark blue",
+    "stage": "Ascension",
+    "cycle": "Mastery",
+    "guide": "Jesus",
+    "role": "Releasing all Attachments",
+    "purpose": "I return to help Humanity",
+    "inCourse": false
+  },
+  {
+    "id": "ring-1",
+    "ring": 1,
+    "colour": "#7a3f9d",
+    "colourName": "Purple",
+    "stage": "Complete Consciousness",
+    "cycle": "Peace",
+    "guide": "I am one with God",
+    "role": "Unconditional Love",
+    "purpose": "I am a perfect expression of love and abundance that does not recognise fear & limitations",
+    "inCourse": false
+  }
+]

@@ -1,0 +1,95 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Prose from '../components/Prose.astro';
+import LifeDoulaWheel from '../components/LifeDoulaWheel.astro';
+import { breadcrumbList, PERSON_ID } from '../lib/jsonld';
+import { SITE } from '../config/site';
+
+const page = await getEntry('pages', 'book');
+if (!page) throw new Error('Missing pages/book.md content entry');
+const { Content } = await render(page);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'The book', href: '/book/' },
+];
+
+const bookJsonLd = {
+  '@type': 'Book',
+  '@id': `${SITE.url}/book/#book`,
+  name: 'Birthing Joy ~ Releasing Pain',
+  alternateName: 'Birthing the New You, Releasing the Old',
+  author: { '@id': PERSON_ID },
+  inLanguage: 'en-GB',
+  url: `${SITE.url}/book/`,
+  creativeWorkStatus: 'Draft',
+};
+---
+
+<BaseLayout
+  title="Birthing Joy ~ Releasing Pain"
+  description={page.data.description}
+  path="/book/"
+  jsonLd={[bookJsonLd, breadcrumbList(crumbs)]}
+>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+    <article class="book">
+      <p class="book-kicker">The book, a work in progress</p>
+      <h1>{page.data.title}</h1>
+      <Prose><Content /></Prose>
+
+      <section class="book-wheel" aria-label="The Life Doula Wheel">
+        <h2>The Life Doula Wheel</h2>
+        <p>
+          The bright wheel on the book's cover is the map of the whole journey. In Becca's words:
+          using colour, the Life Doula Wheel is designed to help you track your progress of Birthing
+          Joy Releasing Pain. Each ring represents a cycle of healing that, when completed, will
+          bring you closer to birthing your inner Christ and revealing your true divine self.
+        </p>
+        <LifeDoulaWheel />
+      </section>
+
+      <p class="book-note">
+        The book is ongoing; in Becca's words, there is no rush, this is a life's work. New cycles,
+        lessons, and her hand-designed diagrams will appear here as she finishes them, and there may
+        be videos of the book on the new channel in time.
+      </p>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .book {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding-block: var(--space-lg) var(--space-2xl);
+  }
+
+  .book-kicker {
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-block-end: var(--space-xs);
+  }
+
+  .book-wheel {
+    margin-block-start: var(--space-xl);
+  }
+
+  .book-wheel p {
+    max-width: var(--measure-prose);
+  }
+
+  .book-note {
+    margin-block-start: var(--space-xl);
+    padding: var(--space-lg);
+    border: 1px dashed var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-alt);
+    color: var(--color-ink-muted);
+  }
+</style>

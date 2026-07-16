@@ -1,18 +1,19 @@
 # 301 redirects for every indexed URL that is not preserved on the new site.
 # Full rationale and the preserved-URL list: docs/redirects.md
 # Audited against the live sitemap (35 URLs) on 2026-07-16.
+# /book/ became a live page again on 2026-07-16 (book confirmed by client);
+# the old book-related URLs now point there.
 
 /about-my-life-doula/ /about/ 301
 /my-story/ /about/ 301
 /pricing-my-life-doula/ / 301
-/book/ / 301
-/birthing-the-new-you-releasing-the-old/ / 301
+/birthing-the-new-you-releasing-the-old/ /book/ 301
 /award-recognition-parent-baby-awards-2025/ /about/ 301
-/a-message-from-your-guardian-angel/ / 301
-/full-book-contents/ / 301
-/how-to-use-this-book/ / 301
-/how-to-use-this-umbrella/ / 301
-/introduction-to-acceptance/ / 301
-/open-and-connect/ / 301
-/pause-and-reflect/ / 301
+/a-message-from-your-guardian-angel/ /book/ 301
+/full-book-contents/ /book/ 301
+/how-to-use-this-book/ /book/ 301
+/how-to-use-this-umbrella/ /book/ 301
+/introduction-to-acceptance/ /book/ 301
+/open-and-connect/ /book/ 301
+/pause-and-reflect/ /book/ 301
 /thank-you/ /contact/ 301
