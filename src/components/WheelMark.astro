@@ -1,0 +1,28 @@
+---
+/**
+ * The site mark: Becca's Life Doula Wheel, simplified for small sizes.
+ * Interim identity agreed with David (open question 8 in CLAUDE.md). The
+ * ring colours are her own diagram specification and are content, fixed
+ * across themes, so they are inline values rather than theme tokens
+ * (same rationale as LifeDoulaWheel.astro).
+ */
+interface Props {
+  size?: number;
+}
+
+const { size = 28 } = Astro.props;
+
+const RINGS: [number, string][] = [
+  [32, '#000000'],
+  [27.5, '#df2b1c'],
+  [23, '#f0a51e'],
+  [18.5, '#2f9e4c'],
+  [14, '#5b8fd4'],
+  [9.5, '#14235f'],
+  [5.5, '#7a3f9d'],
+];
+---
+
+<svg viewBox="0 0 64 64" width={size} height={size} aria-hidden="true">
+  {RINGS.map(([r, colour]) => <circle cx="32" cy="32" r={r} fill={colour} />)}
+</svg>

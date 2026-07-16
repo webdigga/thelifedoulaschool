@@ -2,7 +2,7 @@
 
 Statuses: `draft-placeholder` (real-looking copy, awaiting client approval or replacement), `client-approved`, `missing` (designed placeholder state shown on site).
 
-Nothing goes to the production domain until its content is `client-approved` or knowingly accepted by David. No client draft document was available at build time, so all placeholder copy was written in the client's register from fragments quoted in the project brief, and every word of it is replaceable.
+Nothing goes to the production domain until its content is `client-approved` or knowingly accepted by David. Update 2026-07-16: David has accepted the current draft-placeholder copy for launch (no client sign-off pass will be requested); her verbatim copy still replaces placeholders as it arrives.
 
 | Page / section                             | Status            | Notes                                                                                                                |
 | ------------------------------------------ | ----------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -31,4 +31,4 @@ Nothing goes to the production domain until its content is `client-approved` or 
 | Book page (/book/)                         | draft-placeholder | Built 2026-07-16 from her Acceptance PDF; quotes are verbatim, framing is paraphrased and needs her sign-off         |
 | Life Doula Wheel (SVG + table)             | draft-placeholder | Wording from her diagrams.pdf revision (latest); she has said she must check everything before it counts as approved |
 | 404 page                                   | client-approved   | Utility copy, David's discretion                                                                                     |
-| OG default image                           | draft-placeholder | Generated from theme tokens; regenerate when logo exists (open question 8)                                           |
+| OG default image + favicon + touch icon    | client-approved   | Wheel-mark identity (her own diagram) agreed by David 2026-07-16                                                     |

@@ -1,7 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Interim favicon: the bridge arc over the horizon. Regenerate alongside
-       the OG image when the real logo arrives (open question 8). -->
-  <rect width="64" height="64" rx="12" fill="#3a4a6b"/>
-  <path d="M 8 44 Q 32 20 56 44" fill="none" stroke="#c9a44f" stroke-width="4" stroke-linecap="round"/>
-  <line x1="10" y1="50" x2="54" y2="50" stroke="#f6f3ec" stroke-width="3" stroke-linecap="round"/>
+  <!-- The Life Doula Wheel as the site mark (interim identity agreed with
+       David 2026-07-16, open question 8). Ring colours are the client's own
+       diagram specification (src/content/book-wheel.json). -->
+  <circle cx="32" cy="32" r="32" fill="#000000"/>
+  <circle cx="32" cy="32" r="27.5" fill="#df2b1c"/>
+  <circle cx="32" cy="32" r="23" fill="#f0a51e"/>
+  <circle cx="32" cy="32" r="18.5" fill="#2f9e4c"/>
+  <circle cx="32" cy="32" r="14" fill="#5b8fd4"/>
+  <circle cx="32" cy="32" r="9.5" fill="#14235f"/>
+  <circle cx="32" cy="32" r="5.5" fill="#7a3f9d"/>
 </svg>

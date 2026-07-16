@@ -1,8 +1,10 @@
 ---
 /**
- * Site header: interim text wordmark (open question 8: replace with the
- * agreed logo when it exists) plus primary navigation from the brief's IA.
+ * Site header: the wheel mark + wordmark identity (open question 8, interim
+ * identity agreed with David) plus primary navigation from the brief's IA.
  */
+import WheelMark from './WheelMark.astro';
+
 const NAV = [
   { label: 'Home', href: '/' },
   { label: 'The 8 Bridging Keys', href: '/8-bridging-keys/' },
@@ -22,7 +24,10 @@ function isCurrent(href: string): boolean {
 
 <header class="site-header no-print">
   <div class="container header-inner">
-    <a class="wordmark" href="/">The Life Doula School</a>
+    <a class="wordmark" href="/">
+      <WheelMark size={28} />
+      <span>The Life Doula School</span>
+    </a>
     <button
       class="nav-toggle"
       type="button"
@@ -87,6 +92,7 @@ function isCurrent(href: string): boolean {
     min-height: var(--tap-min);
     display: inline-flex;
     align-items: center;
+    gap: var(--space-sm);
   }
 
   .nav-toggle {
