@@ -5,6 +5,8 @@
  */
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import beccaPortrait from '../assets/becca-sarah.avif';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Prose from '../components/Prose.astro';
@@ -76,23 +78,36 @@ const formatDate = (date: Date): string =>
     <article class="post">
       <header class="post-header">
         <h1>{post.data.title}</h1>
-        <p class="post-byline">
-          By <a href="/about/" rel="author">{SITE.author}</a>
-        </p>
-        <p class="post-dates">
-          Published <time datetime={published.toISOString().slice(0, 10)}
-            >{formatDate(published)}</time
-          >
-          {
-            wasUpdated && (
-              <>
-                <span aria-hidden="true"> · </span>
-                Updated{' '}
-                <time datetime={modified.toISOString().slice(0, 10)}>{formatDate(modified)}</time>
-              </>
-            )
-          }
-        </p>
+        <div class="post-byline">
+          <Image
+            class="byline-avatar"
+            src={beccaPortrait}
+            alt="Rebecca Sarah"
+            width={96}
+            height={96}
+          />
+          <div>
+            <p class="byline-name">
+              By <a href="/about/" rel="author">{SITE.author}</a>
+            </p>
+            <p class="post-dates">
+              Published <time datetime={published.toISOString().slice(0, 10)}
+                >{formatDate(published)}</time
+              >
+              {
+                wasUpdated && (
+                  <>
+                    <span aria-hidden="true"> · </span>
+                    Updated{' '}
+                    <time datetime={modified.toISOString().slice(0, 10)}>
+                      {formatDate(modified)}
+                    </time>
+                  </>
+                )
+              }
+            </p>
+          </div>
+        </div>
       </header>
       <Prose><Content /></Prose>
 
@@ -152,14 +167,29 @@ const formatDate = (date: Date): string =>
   }
 
   .post-byline {
-    margin-block-end: var(--space-2xs);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-block-start: var(--space-md);
   }
 
-  .post-byline a {
+  .post-byline :global(.byline-avatar) {
+    inline-size: 3rem;
+    block-size: 3rem;
+    border-radius: var(--radius-pill);
+    object-fit: cover;
+  }
+
+  .byline-name {
+    margin: 0;
+  }
+
+  .byline-name a {
     color: var(--color-accent);
   }
 
   .post-dates {
+    margin: 0;
     font-size: var(--text-sm);
     color: var(--color-ink-muted);
   }
