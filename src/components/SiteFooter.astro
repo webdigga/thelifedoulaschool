@@ -1,11 +1,24 @@
 ---
 /**
- * Footer: the deep indigo band that closes every page (design-plan.md,
- * "earth at night"). Secondary navigation and only confirmed-current details.
+ * Footer: the deep indigo band that closes every page. Expansive layout:
+ * identity block plus grouped link columns, then a legal row.
  */
 import { SITE } from '../config/site';
 
 const year = new Date().getFullYear();
+
+const LINKS = [
+  { label: 'The 8 Bridging Keys', href: '/8-bridging-keys/' },
+  { label: 'Protocols of a Life Doula', href: '/protocols/' },
+  { label: 'The Three Core Beliefs', href: '/core-beliefs/' },
+  { label: 'The book', href: '/book/' },
+  { label: 'Blog', href: '/blogs/' },
+  { label: "Becca's story", href: '/about/' },
+  { label: 'FAQ', href: '/faq/' },
+  { label: 'Contact', href: '/contact/' },
+  { label: 'Privacy policy', href: '/privacy-policy/' },
+  { label: 'RSS feed', href: '/rss.xml' },
+] as const;
 ---
 
 <footer class="site-footer no-print">
@@ -13,20 +26,24 @@ const year = new Date().getFullYear();
     <div class="footer-identity">
       <p class="footer-wordmark">The Life Doula School</p>
       <p class="footer-strapline">Bridging heaven and earth. Ascending to joy.</p>
+      <p class="footer-mission">
+        A middle path uniting the human and the spiritual experience, taught through the 8 Bridging
+        Keys. Open to all faiths and none; nothing sold, nothing pushed.
+      </p>
     </div>
     <nav class="footer-nav" aria-label="Footer">
       <ul>
-        <li><a href="/8-bridging-keys/">The 8 Bridging Keys</a></li>
-        <li><a href="/protocols/">Protocols of a Life Doula</a></li>
-        <li><a href="/core-beliefs/">The Three Core Beliefs</a></li>
-        <li><a href="/book/">The book</a></li>
-        <li><a href="/blogs/">Blog</a></li>
-        <li><a href="/faq/">FAQ</a></li>
-        <li><a href="/contact/">Contact</a></li>
-        <li><a href="/privacy-policy/">Privacy policy</a></li>
-        <li><a href="/rss.xml">RSS feed</a></li>
+        {
+          LINKS.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
+  </div>
+  <div class="container footer-legal-row">
     <p class="footer-legal">
       &copy; {year}
       {SITE.name}. Written and taught by {SITE.author}.
@@ -36,15 +53,15 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    margin-top: var(--space-3xl);
     background: var(--color-brand);
     color: var(--color-brand-contrast);
-    padding-block: var(--space-2xl) var(--space-xl);
+    padding-block: var(--space-2xl) var(--space-lg);
   }
 
   .footer-inner {
     display: grid;
-    gap: var(--space-xl);
+    grid-template-columns: 2fr 3fr;
+    gap: var(--space-2xl);
   }
 
   .footer-wordmark {
@@ -54,32 +71,58 @@ const year = new Date().getFullYear();
   }
 
   .footer-strapline {
-    margin: var(--space-2xs) 0 0;
+    margin: var(--space-2xs) 0 var(--space-md);
     opacity: 0.85;
     font-size: var(--text-sm);
+  }
+
+  .footer-mission {
+    margin: 0;
+    opacity: 0.75;
+    font-size: var(--text-sm);
+    max-width: 38ch;
   }
 
   .footer-nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
     gap: var(--space-2xs) var(--space-lg);
   }
 
-  .footer-nav a,
-  .footer-legal a {
+  .footer-nav a {
     color: var(--color-brand-contrast);
-    text-decoration-color: var(--color-glow);
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
     min-height: var(--tap-min);
   }
 
+  .footer-nav a:hover {
+    color: var(--color-brand-contrast);
+    text-decoration: underline;
+    text-decoration-color: var(--color-brand-contrast);
+    text-underline-offset: 0.2em;
+  }
+
+  .footer-legal-row {
+    margin-block-start: var(--space-xl);
+    border-top: 1px solid var(--color-brand-strong);
+    padding-block-start: var(--space-md);
+  }
+
   .footer-legal {
     margin: 0;
     font-size: var(--text-xs);
-    opacity: 0.8;
+    opacity: 0.75;
+  }
+
+  @media (width <= 48rem) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
   }
 </style>
