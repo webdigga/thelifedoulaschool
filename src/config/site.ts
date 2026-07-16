@@ -11,7 +11,10 @@ export const SITE = {
   description:
     'The Life Doula Bridge: bridging heaven and earth. A middle path uniting the human and spiritual experience, open to all faiths and none.',
   author: 'Rebecca Sarah',
-  /** Carried from the old site, unconfirmed (open question 4 in CLAUDE.md). */
+  /**
+   * Not rendered anywhere. Client confirmed on 2026-07-16 that no contact
+   * details or social media should be published for now (open question 4).
+   */
   email: 'becca@thelifedoulaschool.co.uk',
   ogDefault: {
     src: '/og-default.png',
