@@ -62,11 +62,17 @@ const crumbs = [
   }
 
   .belief-card {
+    position: relative;
     padding: var(--space-lg);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     box-shadow: var(--shadow-card);
+    transition: border-color var(--motion-quick) var(--ease-soft);
+  }
+
+  .belief-card:hover {
+    border-color: var(--color-glow);
   }
 
   .belief-number {
@@ -86,9 +92,16 @@ const crumbs = [
     color: var(--color-brand);
   }
 
-  .belief-card h2 a:hover {
-    text-decoration: underline;
-    text-decoration-color: var(--color-glow);
+  /* Stretched link: the whole card is the click target, no hover underline. */
+  .belief-card h2 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md);
+  }
+
+  .belief-card:hover h2 a {
+    color: var(--color-brand-strong);
   }
 
   .belief-essence {
