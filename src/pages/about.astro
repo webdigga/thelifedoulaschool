@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Prose from '../components/Prose.astro';
 import TestimonialQuote from '../components/TestimonialQuote.astro';
-import BridgeMotif from '../components/BridgeMotif.astro';
+import SectionDivider from '../components/SectionDivider.astro';
 import { breadcrumbList, PERSON_ID } from '../lib/jsonld';
 import { SITE } from '../config/site';
 
@@ -43,7 +43,7 @@ const profileJsonLd = {
     </article>
 
     <section class="about-testimonials" aria-label="What people say about Becca">
-      <BridgeMotif variant="divider" />
+      <SectionDivider />
       <h2>Kind words</h2>
       <p class="testimonial-note">From people Becca walked beside in her years of 1:1 work.</p>
       <div class="testimonial-grid">

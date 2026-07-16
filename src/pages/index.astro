@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import BridgeMotif from '../components/BridgeMotif.astro';
+import SectionDivider from '../components/SectionDivider.astro';
 import KeyCard from '../components/KeyCard.astro';
 import PostCard from '../components/PostCard.astro';
 import VideoCard from '../components/VideoCard.astro';
@@ -124,7 +124,7 @@ const videoJsonLd = videos.map((video) => ({
 
   <section class="band" aria-label="Latest from the blog">
     <div class="container">
-      <BridgeMotif variant="divider" />
+      <SectionDivider />
       <SectionHeading eyebrow="In writing" heading="Latest from the blog" align="center" />
       <div class="post-grid">
         {
@@ -176,9 +176,11 @@ const videoJsonLd = videos.map((video) => ({
     gap: var(--space-lg);
   }
 
+  /* Sized for exactly three posts: the homepage always shows three and no
+     empty fourth track should appear on wide screens. */
   .post-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
     gap: var(--space-md);
   }
 

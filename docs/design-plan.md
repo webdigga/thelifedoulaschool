@@ -36,7 +36,7 @@ Quiet, disciplined, typography-led. Full-bleed hero with the motif; then alterna
 
 ## Signature element
 
-`BridgeMotif.astro`, version two ("the light field", after David rejected all line work in the hero): built entirely from soft filled shapes, no strokes. A dawn glow rises from the base of the hero (heaven's light) over two gentle ground swells (earth), meeting behind the headline. The divider variant is a small sun disc with a halo. All fills use `--color-glow` and `--color-brand` at low opacity. Decorative, `aria-hidden`, isolated in one component, deletable in one place.
+Version three, after two rejected graphic treatments: there is no drawn motif. The hero is a pure-typography panel on the brand colour with a sparse hand-placed star field of small gold dots (`Hero.astro`), and sections use a small centred gold rule (`SectionDivider.astro`). Both are deliberately unbreakable: plain CSS and dot-only SVG using currentColor, nothing that can degrade to black strokes.
 
 ## Self-critique against the banned defaults
 

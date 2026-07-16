@@ -4,7 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Prose from '../../components/Prose.astro';
-import BridgeMotif from '../../components/BridgeMotif.astro';
+import SectionDivider from '../../components/SectionDivider.astro';
 import { breadcrumbList } from '../../lib/jsonld';
 
 export async function getStaticPaths() {
@@ -47,7 +47,7 @@ const crumbs = [
       {
         belief.data.awaitingContent && (
           <div class="belief-awaiting">
-            <BridgeMotif variant="divider" />
+            <SectionDivider />
             <p>
               Becca is writing the full teaching for this belief, and her own words will appear here
               as they arrive. In the meantime, the

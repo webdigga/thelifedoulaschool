@@ -1,0 +1,18 @@
+---
+/**
+ * A small centred gold rule used as a section ornament. Plain CSS, no SVG,
+ * so it renders identically everywhere or not at all.
+ */
+---
+
+<div class="section-divider" aria-hidden="true"></div>
+
+<style>
+  .section-divider {
+    inline-size: 4rem;
+    block-size: 2px;
+    background: var(--color-glow);
+    margin-inline: auto;
+    margin-block-end: var(--space-lg);
+  }
+</style>
