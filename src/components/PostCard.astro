@@ -28,11 +28,17 @@ const displayDate = datePublished.toLocaleDateString('en-GB', {
 
 <style>
   .post-card {
+    position: relative;
     padding: var(--space-lg);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     box-shadow: var(--shadow-card);
+    transition: border-color var(--motion-quick) var(--ease-soft);
+  }
+
+  .post-card:hover {
+    border-color: var(--color-glow);
   }
 
   .post-title {
@@ -45,10 +51,17 @@ const displayDate = datePublished.toLocaleDateString('en-GB', {
     text-decoration: none;
   }
 
-  .post-title a:hover {
+  /* Stretched link: the title anchor's hit area covers the whole card, so
+     the card is fully clickable with a single accessible link. */
+  .post-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md);
+  }
+
+  .post-card:hover .post-title a {
     color: var(--color-brand);
-    text-decoration: underline;
-    text-decoration-color: var(--color-glow);
   }
 
   .post-meta {
