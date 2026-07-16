@@ -27,6 +27,10 @@ With that support I began [shadow work](/healing-and-shadow-work/) and guided he
 
 With the weight lifted, I turned to the question underneath it all: what is my life actually for? The answer arrived through writing and through work: my calling was to help people navigate the living moments between birth and death, with love, guidance, and practical support. Years of doing exactly that, together with everything my own crossing taught me, distilled into The Life Doula Bridge: the [8 Bridging Keys](/8-bridging-keys/), the [protocols](/protocols/), and the [three core beliefs](/core-beliefs/). Teaching them is the work of the rest of my life.
 
+### A life's work, still being written
+
+The writing that began on that road has kept growing. What started as one book, _Birthing the New You, Releasing the Old_, has become three, all still being written alongside the Bridging Keys themselves. The teaching also arrives as diagrams I design by hand, including a karma wheel I was asked to make in a dream. None of it is rushed. This is a life's work now, and it will be shared here as each part becomes ready.
+
 ## Experience that shaped the teaching
 
 - More than 20 years assisting people with disabilities to live independently
