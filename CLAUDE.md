@@ -43,3 +43,4 @@ Keep this table updated as answers arrive.
 - `npm run contrast:audit` verifies WCAG AA for every token pairing in every theme.
 - `npm run og:generate` regenerates `public/og-default.png` from the active theme tokens.
 - YouTube data: `src/lib/youtube.ts` fetches the channel RSS at build; last successful data is cached in `src/data/latest-videos.json` (committed). Feed failure never breaks the build.
+- **Lockfile rule**: Cloudflare Pages installs with npm 10, which rejects lockfiles written by npm 11. Add or update dependencies via `npx npm@10 install <package>` (never plain `npm install` while local npm is 11), or set `NPM_VERSION = 11` in the Pages build environment and regenerate the lockfile with npm 11. After any lockfile change, verify with `npx npm@10 ci` before pushing.
