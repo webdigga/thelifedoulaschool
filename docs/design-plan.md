@@ -36,7 +36,7 @@ Quiet, disciplined, typography-led. Full-bleed hero with the motif; then alterna
 
 ## Signature element
 
-`BridgeMotif.astro`: a single abstract SVG. A wide, shallow arc spans the viewport (the bridge), a fine horizon line crosses beneath its spring points, and a fan of fine light rays rises from the point where they meet. Gradient wash from sky to ground. All strokes and fills use `--color-glow`, `--color-brand`, and surface tokens at low opacity. It appears large in the hero and as a small centred divider variant between homepage sections. It is decorative, `aria-hidden`, isolated in one component, and deletable in one place.
+`BridgeMotif.astro`, version two ("the light field", after David rejected all line work in the hero): built entirely from soft filled shapes, no strokes. A dawn glow rises from the base of the hero (heaven's light) over two gentle ground swells (earth), meeting behind the headline. The divider variant is a small sun disc with a halo. All fills use `--color-glow` and `--color-brand` at low opacity. Decorative, `aria-hidden`, isolated in one component, deletable in one place.
 
 ## Self-critique against the banned defaults
 
