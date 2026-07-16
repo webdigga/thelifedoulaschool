@@ -232,10 +232,8 @@ const hasWays = key.data.sevenWays.length === 7;
 
   .ways-list li {
     counter-increment: ways;
-    padding: var(--space-lg);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
+    border-top: 1px solid var(--color-line);
+    padding-block-start: var(--space-md);
   }
 
   .ways-list h3::before {
@@ -283,10 +281,11 @@ const hasWays = key.data.sevenWays.length === 7;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   }
 
+  /* Deliberately not card-styled: these are static content, and only
+     clickable elements should look like cards. */
   .application {
-    padding: var(--space-lg);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-md);
+    border-top: 2px solid var(--color-glow);
+    padding-block-start: var(--space-md);
   }
 
   .application-placeholder {
